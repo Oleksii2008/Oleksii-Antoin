@@ -14,6 +14,8 @@ labyrinthe = [
     [" ", "#", " ", "#", " ", "#", " ", "#", " ", "#"]
 ]
 
+
+
 # Position initiale du joueur (ligne, colonne)
 position_joueur = [0, 0]
 
