@@ -15,7 +15,6 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
-GREY = (128, 128, 128)
 
 # Création de la fenêtre
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -73,21 +72,21 @@ def is_valid_position(row, col):
     return 0 <= row < BOARD_SIZE and 0 <= col < BOARD_SIZE
 
 
-# Vérifier si un mouvement est valide
+# Vérifier si un mouvement est valide (sans retour en arrière)
 def is_valid_move(start_row, start_col, end_row, end_col):
     if not is_valid_position(end_row, end_col):
         return False
     if board[end_row][end_col] != " ": # La case doit être vide
         return False
     piece = board[start_row][start_col]
-    if piece == "R" and abs(end_row - start_row) == 1 and abs(end_col - start_col) == 1:
+    if piece == "R" and end_row > start_row and abs(end_col - start_col) == 1:
         return True
-    if piece == "B" and abs(end_row - start_row) == 1 and abs(end_col - start_col) == 1:
+    if piece == "B" and end_row < start_row and abs(end_col - start_col) == 1:
         return True
     return False
 
 
-# Vérifier si une capture est possible (battre une pièce)
+# Vérifier si une capture est possible (battre une pièce, y compris en arrière)
 def is_valid_capture(start_row, start_col, end_row, end_col):
     if not is_valid_position(end_row, end_col):
         return False
@@ -142,9 +141,13 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             col, row = event.pos[0] // CELL_SIZE, event.pos[1] // CELL_SIZE
             if selected_piece:
-                start_row, start_col = selected_piece
-                if is_valid_move(start_row, start_col, row, col) or is_valid_capture(start_row, start_col, row, col):
-                    make_move(start_row, start_col, row, col)
+                # Annuler sélection si clique sur la même case
+                if selected_piece == (row, col):
+                    selected_piece = None
+                else:
+                    start_row, start_col = selected_piece
+                    if is_valid_move(start_row, start_col, row, col) or is_valid_capture(start_row, start_col, row, col):
+                        make_move(start_row, start_col, row, col)
             elif board[row][col] == current_player:
                 selected_piece = (row, col)
 
