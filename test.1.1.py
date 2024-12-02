@@ -5,8 +5,8 @@ import sys
 pygame.init()
 
 # Taille de la cellule et de la planche
-CELL_SIZE = 80
-BOARD_SIZE = 8
+CELL_SIZE = 70
+BOARD_SIZE = 10
 WIDTH = HEIGHT = CELL_SIZE * BOARD_SIZE
 
 # Couleurs
@@ -28,10 +28,10 @@ def create_board():
     for row in range(BOARD_SIZE):
         for col in range(BOARD_SIZE):
             # Placer les pièces rouges
-            if row < 3 and (row + col) % 2 == 1:
+            if row < 4 and (row + col) % 2 == 1:
                 board[row][col] = "R"
             # Placer les pièces bleues
-            elif row > 4 and (row + col) % 2 == 1:
+            elif row > 5 and (row + col) % 2 == 1:
                 board[row][col] = "B"
     return board
 
@@ -101,7 +101,6 @@ def is_valid_capture(start_row, start_col, end_row, end_col):
     if piece == "B" and end_row == start_row - 2 and abs(end_col - start_col) == 2:
         return board[mid_row][mid_col] == "R"
     return False
-
 
 # Effectuer un mouvement
 def make_move(start_row, start_col, end_row, end_col):
