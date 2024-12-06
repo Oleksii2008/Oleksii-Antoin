@@ -5,7 +5,7 @@ import sys
 pygame.init()
 
 # Taille de la cellule et de la planche
-CELL_SIZE = 50
+CELL_SIZE = 55
 BOARD_SIZE = 10
 WIDTH = HEIGHT = CELL_SIZE * BOARD_SIZE
 
