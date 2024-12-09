@@ -1,141 +1,85 @@
 import pygame
 import sys
 
-# Initialisation de Pygame
 pygame.init()
 
-# Taille de la cellule et de la planche
-CELL_SIZE = 70
-BOARD_SIZE = 10
-WIDTH = HEIGHT = CELL_SIZE * BOARD_SIZE
 
-# Couleurs
+labyrinthe = [
+    ["*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"],
+    ["*", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", "*"],
+    ["*", " ", "#", " ", "#", " ", "#", " ", "#", " ", "#", "*"],
+    ["*", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", "*"],
+    ["*", " ", "#", " ", "#", " ", "#", " ", "#", " ", "#", "*"],
+    ["*", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", "*"],
+    ["*", " ", "#", " ", "#", " ", "#", " ", "#", " ", "#", "*"],
+    ["*", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", "*"],
+    ["*", " ", "#", " ", "#", " ", "#", " ", "#", " ", "#", "*"],
+    ["*", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", "*"],
+    ["*", " ", "#", " ", "#", " ", "#", " ", "#", " ", "#", "*"],
+    ["*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"]
+]
+
+
+CELL_SIZE = 40
+
+position_joueur = [1, 1]
+
+WIDTH = CELL_SIZE * len(labyrinthe[0])
+HEIGHT = CELL_SIZE * len(labyrinthe)
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Labyrinthe")
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 GREY = (128, 128, 128)
 
-# Création de la fenêtre
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Dames")
+def afficher_labyrinthe():
+    screen.fill(WHITE)
+    for i, ligne in enumerate(labyrinthe):
+        for j, cellule in enumerate(ligne):
+            x, y = j * CELL_SIZE, i * CELL_SIZE
+            if cellule == "#":
+                color = BLACK
+            elif cellule == "E":
+                color = GREEN
+            elif cellule == "*":
+                color = GREY
+            else:
+                color = WHITE
+            pygame.draw.rect(screen, color, (x, y, CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, GREY, (x, y, CELL_SIZE, CELL_SIZE), 1)
+    x, y = position_joueur[1] * CELL_SIZE, position_joueur[0] * CELL_SIZE
+    pygame.draw.rect(screen, BLUE, (x, y, CELL_SIZE, CELL_SIZE))
 
+def deplacer_joueur(dx, dy):
+    global position_joueur
+    ligne, colonne = position_joueur
+    nouvelle_position = [ligne + dy, colonne + dx]
+    if labyrinthe[nouvelle_position[0]][nouvelle_position[1]] in [" ", "#"]:
+        position_joueur = nouvelle_position
 
-# État initial de la planche
-def create_board():
-    board = [[" " for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
-            # Placer les pièces rouges
-            if row < 4 and (row + col) % 2 == 1:
-                board[row][col] = "R"
-            # Placer les pièces bleues
-            elif row > 5 and (row + col) % 2 == 1:
-                board[row][col] = "B"
-    return board
-
-
-board = create_board()
-
-# Tour du joueur ("R" ou "B")
-current_player = "R"
-
-# Pièce sélectionnée
-selected_piece = None
-
-
-# Affichage de la planche
-def draw_board():
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
-            # Case : noire ou blanche
-            color = BLACK if (row + col) % 2 == 1 else WHITE
-            pygame.draw.rect(screen, color, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-
-            # Dessiner les pièces
-            piece = board[row][col]
-            if piece == "R":  # Pièce rouge
-                pygame.draw.circle(screen, RED, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2),
-                                   CELL_SIZE // 3)
-            elif piece == "B":  # Pièce bleue
-                pygame.draw.circle(screen, BLUE, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2),
-                                   CELL_SIZE // 3)
-
-            # Affichage de la pièce sélectionnée
-            if selected_piece and selected_piece == (row, col):
-                pygame.draw.circle(screen, GREEN, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2),
-                                   CELL_SIZE // 3, 5)
-
-
-# Vérifier si la case est dans les limites de la planche
-def is_valid_position(row, col):
-    return 0 <= row < BOARD_SIZE and 0 <= col < BOARD_SIZE
-
-
-# Vérifier si un mouvement est valide
-def is_valid_move(start_row, start_col, end_row, end_col):
-    if not is_valid_position(end_row, end_col):
-        return False
-    if board[end_row][end_col] != " ":  # La case doit être vide
-        return False
-    piece = board[start_row][start_col]
-    if piece == "R" and end_row == start_row + 1 and abs(end_col - start_col) == 1:
-        return True
-    if piece == "B" and end_row == start_row - 1 and abs(end_col - start_col) == 1:
-        return True
-    return False
-
-
-# Vérifier si une capture est possible (battre une pièce)
-def is_valid_capture(start_row, start_col, end_row, end_col):
-    if not is_valid_position(end_row, end_col):
-        return False
-    if board[end_row][end_col] != " ":  # La case doit être vide
-        return False
-    piece = board[start_row][start_col]
-    mid_row = (start_row + end_row) // 2
-    mid_col = (start_col + end_col) // 2
-    if piece == "R" and end_row == start_row + 2 and abs(end_col - start_col) == 2:
-        return board[mid_row][mid_col] == "B"
-    if piece == "B" and end_row == start_row - 2 and abs(end_col - start_col) == 2:
-        return board[mid_row][mid_col] == "R"
-    return False
-
-# Effectuer un mouvement
-def make_move(start_row, start_col, end_row, end_col):
-    global current_player
-    board[end_row][end_col] = board[start_row][start_col]
-    board[start_row][start_col] = " "
-    # Si c'est une capture, supprimer la pièce battue
-    if abs(end_row - start_row) == 2:
-        mid_row = (start_row + end_row) // 2
-        mid_col = (start_col + end_col) // 2
-        board[mid_row][mid_col] = " "
-    # Passer le tour à l'autre joueur
-    current_player = "B" if current_player == "R" else "R"
-
-
-# Boucle principale
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            col, row = event.pos[0] // CELL_SIZE, event.pos[1] // CELL_SIZE
-            if selected_piece:
-                start_row, start_col = selected_piece
-                if is_valid_move(start_row, start_col, row, col) or is_valid_capture(start_row, start_col, row, col):
-                    make_move(start_row, start_col, row, col)
-                selected_piece = None
-            elif board[row][col] == current_player:
-                selected_piece = (row, col)
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        deplacer_joueur(-1, -1)
+    elif keys[pygame.K_e]:
+        deplacer_joueur(1, -1)
+    elif keys[pygame.K_s]:
+        deplacer_joueur(-1, 1)
+    elif keys[pygame.K_d]:
+        deplacer_joueur(1, 1)
 
-    # Dessiner la planche et les pièces
-    draw_board()
+    afficher_labyrinthe()
     pygame.display.flip()
+    pygame.time.delay(100)
 
 pygame.quit()
 sys.exit()
