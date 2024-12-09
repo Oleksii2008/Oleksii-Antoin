@@ -6,8 +6,8 @@ pygame.init()
 
 # Taille des cellules et de la planche
 CELL_SIZE = 55  # Taille de chaque cellule sur le plateau
-BOARD_SIZE = 10  # Taille de la planche (10x10)
-WIDTH = HEIGHT = CELL_SIZE * BOARD_SIZE  # Largeur et hauteur de la fenêtre (10x10 cellules)
+board_size = 10  # Taille de la planche (10x10)
+WIDTH = HEIGHT = CELL_SIZE * board_size  # Largeur et hauteur de la fenêtre (10x10 cellules)
 
 # Définition des couleurs
 WHITE = (255, 255, 255)  # Blanc
@@ -22,10 +22,10 @@ pygame.display.set_caption("Dames")  # Titre de la fenêtre
 
 # Fonction pour créer l'état initial du plateau
 def create_board():
-    board = [[" " for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]  # Création d'une planche vide
+    board = [[" " for _ in range(board_size)] for _ in range(board_size)]  # Création d'une planche vide
     # Placer les pièces
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
+    for row in range(board_size):
+        for col in range(board_size):
             # Placer les pièces rouges (dans les rangées supérieures)
             if row < 4 and (row + col) % 2 == 1:
                 board[row][col] = "R"
@@ -45,8 +45,8 @@ selected_piece = None
 
 # Fonction pour dessiner le plateau
 def draw_board():
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
+    for row in range(board_size):
+        for col in range(board_size):
             # Déterminer la couleur de la cellule (noir ou blanc)
             color = BLACK if (row + col) % 2 == 1 else WHITE
             # Dessiner la cellule
@@ -68,7 +68,7 @@ def draw_board():
 
 # Fonction pour vérifier si une position est valide (dans les limites de la planche)
 def is_valid_position(row, col):
-    return 0 <= row < BOARD_SIZE and 0 <= col < BOARD_SIZE
+    return 0 <= row < board_size and 0 <= col < board_size
 
 # Fonction pour vérifier si un mouvement est valide
 def is_valid_move(start_row, start_col, end_row, end_col):
