@@ -1,3 +1,4 @@
+# Dames_bkend.py
 
 BOARD_SIZE = 10
 
@@ -56,7 +57,7 @@ def can_capture(row, col, board):
     return False
 
 # Effectuer un mouvement
-def make_move(start_row, start_col, end_row, end_col, board, current_player):
+def make_move(start_row, start_col, end_row, end_col, board):
     board[end_row][end_col] = board[start_row][start_col]
     board[start_row][start_col] = " "
     # Si c'est une capture, supprimer la pièce battue
@@ -66,7 +67,6 @@ def make_move(start_row, start_col, end_row, end_col, board, current_player):
         board[mid_row][mid_col] = " "
         # Vérifier les captures supplémentaires
         if can_capture(end_row, end_col, board):
-            return (end_row, end_col)
-    # Passer le tour à l'autre joueur
-    current_player = "B" if current_player == "R" else "R"
-    return None
+            return None # Le joueur continue de capturer
+    return "B" if board[end_row][end_col] == "R" else "R" # Changer de joueur après le coup
+

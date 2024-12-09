@@ -26,6 +26,8 @@ current_player = "R"
 selected_piece = None
 
 # Boucle principale
+# Boucle principale
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -41,7 +43,10 @@ while running:
                 else:
                     start_row, start_col = selected_piece
                     if is_valid_move(start_row, start_col, row, col, board) or is_valid_capture(start_row, start_col, row, col, board):
-                        selected_piece = make_move(start_row, start_col, row, col, board, current_player)
+                        new_player = make_move(start_row, start_col, row, col, board)
+                        if new_player: # Changer de joueur si le coup est terminé
+                            current_player = new_player
+                        selected_piece = None
             elif board[row][col] == current_player:
                 selected_piece = (row, col)
 
@@ -51,3 +56,4 @@ while running:
 
 pygame.quit()
 sys.exit()
+
