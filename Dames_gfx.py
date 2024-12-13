@@ -1,27 +1,29 @@
-# Dames_gfx.py
 import pygame
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
+BLANC = (255, 255, 255)
+NOIR = (0, 0, 0)
+ROUGE = (255, 0, 0)
+BLEU = (0, 0, 255)
+VERT = (0, 255, 0)
 
-# Affichage de la planche
-def draw_board(screen, board, selected_piece, CELL_SIZE, BOARD_SIZE):
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
-            # Case : noire ou blanche
-            color = BLACK if (row + col) % 2 == 1 else WHITE
-            pygame.draw.rect(screen, color, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+def dessiner_plateau(ecran, plateau, piece_selectionnee, TAILLE_CASE, TAILLE_PLATEAU):
+    """Dessine le plateau et les pièces"""
+    for ligne in range(TAILLE_PLATEAU):
+        for colonne in range(TAILLE_PLATEAU):
+            couleur = NOIR if (ligne + colonne) % 2 == 1 else BLANC
+            pygame.draw.rect(ecran, couleur, (colonne * TAILLE_CASE, ligne * TAILLE_CASE, TAILLE_CASE, TAILLE_CASE))
 
-            # Dessiner les pièces
-            piece = board[row][col]
-            if piece == "R":  # Pièce rouge
-                pygame.draw.circle(screen, RED, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3)
-            elif piece == "B":  # Pièce bleue
-                pygame.draw.circle(screen, BLUE, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3)
+            piece = plateau[ligne][colonne]
+            if piece == "R":
+                pygame.draw.circle(ecran, ROUGE, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE + TAILLE_CASE // 2), TAILLE_CASE // 3)
+            elif piece == "B":
+                pygame.draw.circle(ecran, BLEU, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE + TAILLE_CASE // 2), TAILLE_CASE // 3)
+            elif piece == "QR":
+                pygame.draw.circle(ecran, ROUGE, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE + TAILLE_CASE // 2), TAILLE_CASE // 3)
+                pygame.draw.circle(ecran, BLANC, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE // 2), TAILLE_CASE // 4, 3)
+            elif piece == "QB":
+                pygame.draw.circle(ecran, BLEU, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE + TAILLE_CASE // 2), TAILLE_CASE // 3)
+                pygame.draw.circle(ecran, BLANC, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE // 2), TAILLE_CASE // 4, 3)
 
-            # Affichage de la pièce sélectionnée
-            if selected_piece and selected_piece == (row, col):
-                pygame.draw.circle(screen, GREEN, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3, 5)
+            if piece_selectionnee and piece_selectionnee == (ligne, colonne):
+                pygame.draw.circle(ecran, VERT, (colonne * TAILLE_CASE + TAILLE_CASE // 2, ligne * TAILLE_CASE + TAILLE_CASE // 2), TAILLE_CASE // 3, 5)

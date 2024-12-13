@@ -1,5 +1,4 @@
 import pygame
-import sys
 
 # Initialisation de Pygame
 pygame.init()
@@ -156,4 +155,4 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
-sys.exit()
+
