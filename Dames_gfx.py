@@ -1,15 +1,6 @@
 import Dames_bkend as dbkd
 import pygame
 
-
-
-
-
-
-
-
-
-
 # Affichage de la planche
 def draw_board():
     global selected_piece, BOARD_SIZE,BLACK,screen,board,CELL_SIZE,WHITE,RED
@@ -152,6 +143,3 @@ selected_piece = None
 draw_board()
 # Tour du joueur ("R" ou "B")
 current_player = "R"
-
-
-

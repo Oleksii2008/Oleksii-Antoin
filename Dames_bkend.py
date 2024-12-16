@@ -1,5 +1,5 @@
 # État initial de la planche
-from Dames import board
+
 
 
 def create_board(size):
