@@ -5,8 +5,8 @@ pygame.init()
 
 # Taille de la cellule et de la planche
 CELL_SIZE = 55
-board_size = 10
-WIDTH = HEIGHT = CELL_SIZE * board_size
+BOARD_SIZE = 10
+WIDTH = HEIGHT = CELL_SIZE * BOARD_SIZE
 
 # Couleurs
 WHITE = (255, 255, 255)
@@ -22,9 +22,9 @@ pygame.display.set_caption("Dames")
 
 # État initial de la planche
 def create_board():
-    board = [[" " for _ in range(board_size)] for _ in range(board_size)]
-    for row in range(board_size):
-        for col in range(board_size):
+    board = [[" " for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+    for row in range(BOARD_SIZE):
+        for col in range(BOARD_SIZE):
             # Placer les pièces rouges
             if row < 4 and (row + col) % 2 == 1:
                 board[row][col] = "R"
@@ -45,8 +45,8 @@ selected_piece = None
 
 # Affichage de la planche
 def draw_board():
-    for row in range(board_size):
-        for col in range(board_size):
+    for row in range(BOARD_SIZE):
+        for col in range(BOARD_SIZE):
             # Case : noire ou blanche
             color = BLACK if (row + col) % 2 == 1 else WHITE
             pygame.draw.rect(screen, color, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
@@ -68,7 +68,7 @@ def draw_board():
 
 # Vérifier si la case est dans les limites de la planche
 def is_valid_position(row, col):
-    return 0 <= row < board_size and 0 <= col < board_size
+    return 0 <= row < BOARD_SIZE and 0 <= col < BOARD_SIZE
 
 
 # Vérifier si un mouvement est valide (sans retour en arrière)
@@ -155,3 +155,4 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
+

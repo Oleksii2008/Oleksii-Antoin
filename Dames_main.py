@@ -1,59 +1,54 @@
-# Dames_main.py
+"""Dames_main.py"""
 import pygame
-import sys
-from Dames_gfx import draw_board
-from Dames_bkend import create_board, is_valid_move, is_valid_capture, make_move
+from Dames_gfx import dessiner_plateau
+from Dames_bkend import creer_plateau, mouvement_valide, capture_valide, effectuer_mouvement
 
-# Initialisation de Pygame
 pygame.init()
 
-# Taille de la cellule et de la planche
-CELL_SIZE = 55
-BOARD_SIZE = 10
-WIDTH = HEIGHT = CELL_SIZE * BOARD_SIZE
+TAILLE_CASE = 55
+TAILLE_PLATEAU = 10
+LARGEUR = HAUTEUR = TAILLE_CASE * TAILLE_PLATEAU
 
-# Création de la fenêtre
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+ecran = pygame.display.set_mode((LARGEUR, HAUTEUR))
 pygame.display.set_caption("Dames")
 
-# État initial de la planche
-board = create_board()
+plateau = creer_plateau()
+historique = [creer_plateau()] # Historique des états du plateau
+joueur_actuel = "R"
+piece_selectionnee = None
 
-# Tour du joueur ("R" ou "B")
-current_player = "R"
+en_cours = True
+while en_cours:
+    for evenement in pygame.event.get():
+        if evenement.type == pygame.QUIT:
+            en_cours = False
 
-# Pièce sélectionnée
-selected_piece = None
+        if evenement.type == pygame.KEYDOWN:
+            if evenement.key == pygame.K_BACKSPACE and len(historique) > 1:
+                historique.pop()
+                plateau = [ligne[:] for ligne in historique[-1]]
+                joueur_actuel = "B" if joueur_actuel == "R" else "R"
+                piece_selectionnee = None
 
-# Boucle principale
-# Boucle principale
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            col, row = event.pos[0] // CELL_SIZE, event.pos[1] // CELL_SIZE
-            if selected_piece:
-                # Annuler sélection si clique sur la même case
-                if selected_piece == (row, col):
-                    selected_piece = None
+        if evenement.type == pygame.MOUSEBUTTONDOWN:
+            colonne, ligne = evenement.pos[0] // TAILLE_CASE, evenement.pos[1] // TAILLE_CASE
+            if piece_selectionnee:
+                depart_ligne, depart_colonne = piece_selectionnee
+                if mouvement_valide(depart_ligne, depart_colonne, ligne, colonne, plateau) or capture_valide(depart_ligne, depart_colonne, ligne, colonne, plateau):
+                    historique.append([ligne[:] for ligne in plateau])
+                    nouveau_joueur = effectuer_mouvement(depart_ligne, depart_colonne, ligne, colonne, plateau)
+                    if nouveau_joueur:
+                        joueur_actuel = nouveau_joueur
+                        piece_selectionnee = None
+                    else:
+                        piece_selectionnee = (ligne, colonne)
                 else:
-                    start_row, start_col = selected_piece
-                    if is_valid_move(start_row, start_col, row, col, board) or is_valid_capture(start_row, start_col, row, col, board):
-                        new_player = make_move(start_row, start_col, row, col, board)
-                        if new_player: # Changer de joueur si le coup est terminé
-                            current_player = new_player
-                        selected_piece = None
-            elif board[row][col] == current_player:
-                selected_piece = (row, col)
+                    piece_selectionnee = None # Désélectionner si mouvement non valide
+            elif plateau[ligne][colonne] and plateau[ligne][colonne][0] == joueur_actuel:
+                piece_selectionnee = (ligne, colonne)
 
-    # Dessiner la planche et les pièces
-    draw_board(screen, board, selected_piece, CELL_SIZE, BOARD_SIZE)
+    dessiner_plateau(ecran, plateau, piece_selectionnee, TAILLE_CASE, TAILLE_PLATEAU)
     pygame.display.flip()
 
 pygame.quit()
-sys.exit()
 

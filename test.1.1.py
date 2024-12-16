@@ -43,8 +43,6 @@ def afficher_labyrinthe():
             x, y = j * CELL_SIZE, i * CELL_SIZE
             if cellule == "#":
                 color = BLACK
-            elif cellule == "E":
-                color = GREEN
             elif cellule == "*":
                 color = GREY
             else:
