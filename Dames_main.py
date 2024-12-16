@@ -1,4 +1,4 @@
-"""Dames_main.py"""
+#Dames_main.py
 import pygame
 from Dames_gfx import dessiner_plateau
 from Dames_bkend import creer_plateau, mouvement_valide, capture_valide, effectuer_mouvement

@@ -21,7 +21,7 @@ def dessiner_plateau(ecran, plateau, piece_selectionnee, taille_case, taille_pla
             if piece:
                 # Définir la couleur de la pièce
                 if piece == "R":  # Pièce rouge
-                    couleur_piece = (200, 0, 0)  # Rouge foncé
+                    couleur_piece = (255, 0, 0)  # Rouge foncé
                 elif piece == "B":  # Pièce bleue
                     couleur_piece = (173, 216, 230)  # Bleu clair
                 elif piece == "QR":  # Dame rouge
@@ -35,7 +35,7 @@ def dessiner_plateau(ecran, plateau, piece_selectionnee, taille_case, taille_pla
 
                     # Appliquer une teinte plus sombre ou plus claire selon le type de pièce
                     if piece == "R" or piece == "QR":
-                        piece_surface.fill((139, 0, 0), special_flags=pygame.BLEND_RGB_MULT)  # Darken the piece
+                        piece_surface.fill((255, 0, 0), special_flags=pygame.BLEND_RGB_MULT)  # Darken the piece
                     elif piece == "B" or piece == "QB":
                         piece_surface.fill((173, 216, 230), special_flags=pygame.BLEND_RGB_MULT)  # Lighten the piece
 
