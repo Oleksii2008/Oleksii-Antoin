@@ -21,7 +21,7 @@ def dessiner_plateau(ecran, plateau, piece_selectionnee, taille_case, taille_pla
             if piece:
                 # Définir la couleur de la pièce
                 if piece == "R":  # Pièce rouge
-                    couleur_piece = (139, 0, 0)  # Rouge foncé
+                    couleur_piece = (200, 0, 0)  # Rouge foncé
                 elif piece == "B":  # Pièce bleue
                     couleur_piece = (173, 216, 230)  # Bleu clair
                 elif piece == "QR":  # Dame rouge
