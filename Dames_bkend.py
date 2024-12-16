@@ -1,3 +1,4 @@
+"""Dames_bkend.py"""
 def creer_plateau():
     """Créer le plateau avec les pièces initiales"""
     plateau = [[None] * 10 for _ in range(10)]
