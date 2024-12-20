@@ -67,8 +67,6 @@ def effectuer_mouvement(depart_ligne, depart_colonne, arrivee_ligne, arrivee_col
 
     # Changer de joueur
     return "B" if piece in ("R", "QR") else "R"
-
-
 def peut_continuer_capture(ligne, colonne, plateau):
     """Vérifie si une pièce peut continuer à capturer"""
     piece = plateau[ligne][colonne]
@@ -84,3 +82,21 @@ def peut_continuer_capture(ligne, colonne, plateau):
                 if plateau[milieu_ligne][milieu_colonne] in (adversaire, adversaire_dame):
                     return True
     return False
+
+def peut_continuer_capture(ligne, colonne, plateau):
+    """Vérifie si une pièce peut continuer à capturer"""
+    piece = plateau[ligne][colonne]
+    directions = [(-2, -2), (-2, 2), (2, -2), (2, 2)]  # Toutes les directions possibles de capture
+    for dr, dc in directions:
+        nouvelle_ligne, nouvelle_colonne = ligne + dr, colonne + dc
+        milieu_ligne, milieu_colonne = ligne + dr // 2, colonne + dc // 2
+
+        if 0 <= nouvelle_ligne < len(plateau) and 0 <= nouvelle_colonne < len(plateau):
+            if plateau[nouvelle_ligne][nouvelle_colonne] is None:
+                adversaire = "B" if piece in ("R", "QR") else "R"
+                adversaire_dame = "QB" if piece in ("R", "QR") else "QR"
+                if plateau[milieu_ligne][milieu_colonne] in (adversaire, adversaire_dame):
+                    return True
+    return False
+
+
