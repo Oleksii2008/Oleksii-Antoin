@@ -1,15 +1,20 @@
 #Dames_bkend.py
-def creer_plateau():
-    """Créer le plateau avec les pièces initiales"""
-    plateau = [[None] * 10 for _ in range(10)]
+def creer_plateau(longueur, hauteur):
+    """Créer un plateau avec les pièces initiales"""
+    plateau = [[None] * longueur for _ in range(hauteur)]
+
+    # Placer les pièces bleues sur les 4 premières lignes
     for ligne in range(4):
-        for colonne in range(10):
+        for colonne in range(longueur):
             if (ligne + colonne) % 2 == 1:
-                plateau[ligne][colonne] = "B" # Pièces bleues
-    for ligne in range(6, 10):
-        for colonne in range(10):
+                plateau[ligne][colonne] = "B"  # Pièces bleues
+
+    # Placer les pièces rouges sur les 4 dernières lignes
+    for ligne in range(hauteur - 4, hauteur):
+        for colonne in range(longueur):
             if (ligne + colonne) % 2 == 1:
-                plateau[ligne][colonne] = "R" # Pièces rouges
+                plateau[ligne][colonne] = "R"  # Pièces rouges
+
     return plateau
 
 
@@ -60,28 +65,14 @@ def effectuer_mouvement(depart_ligne, depart_colonne, arrivee_ligne, arrivee_col
 
         # Vérifier s'il est possible de continuer à capturer
         if peut_continuer_capture(arrivee_ligne, arrivee_colonne, plateau):
-            return None # Le joueur peut continuer à jouer
+            return None  # Le joueur peut continuer à jouer
 
     # Promouvoir en dame si nécessaire
     promouvoir_dame(arrivee_ligne, arrivee_colonne, plateau)
 
     # Changer de joueur
     return "B" if piece in ("R", "QR") else "R"
-def peut_continuer_capture(ligne, colonne, plateau):
-    """Vérifie si une pièce peut continuer à capturer"""
-    piece = plateau[ligne][colonne]
-    directions = [(-2, -2), (-2, 2), (2, -2), (2, 2)]
-    for dr, dc in directions:
-        nouvelle_ligne, nouvelle_colonne = ligne + dr, colonne + dc
-        milieu_ligne, milieu_colonne = ligne + dr // 2, colonne + dc // 2
 
-        if 0 <= nouvelle_ligne < len(plateau) and 0 <= nouvelle_colonne < len(plateau):
-            if plateau[nouvelle_ligne][nouvelle_colonne] is None:
-                adversaire = "B" if piece in ("R", "QR") else "R"
-                adversaire_dame = "QB" if piece in ("R", "QR") else "QR"
-                if plateau[milieu_ligne][milieu_colonne] in (adversaire, adversaire_dame):
-                    return True
-    return False
 
 def peut_continuer_capture(ligne, colonne, plateau):
     """Vérifie si une pièce peut continuer à capturer"""
@@ -91,12 +82,12 @@ def peut_continuer_capture(ligne, colonne, plateau):
         nouvelle_ligne, nouvelle_colonne = ligne + dr, colonne + dc
         milieu_ligne, milieu_colonne = ligne + dr // 2, colonne + dc // 2
 
-        if 0 <= nouvelle_ligne < len(plateau) and 0 <= nouvelle_colonne < len(plateau):
+        # Vérifier si la nouvelle position est dans les limites du plateau
+        if 0 <= nouvelle_ligne < len(plateau) and 0 <= nouvelle_colonne < len(plateau[0]):
             if plateau[nouvelle_ligne][nouvelle_colonne] is None:
                 adversaire = "B" if piece in ("R", "QR") else "R"
                 adversaire_dame = "QB" if piece in ("R", "QR") else "QR"
                 if plateau[milieu_ligne][milieu_colonne] in (adversaire, adversaire_dame):
                     return True
     return False
-
 
