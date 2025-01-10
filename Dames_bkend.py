@@ -85,7 +85,7 @@ def effectuer_mouvement(depart_ligne, depart_colonne, arrivee_ligne, arrivee_col
 
 
 def peut_continuer_capture(ligne, colonne, plateau):
-    """Vérifie si une pièce peut continuer à capturer"""
+    """Vérifie si une pièce peut continuer a capturer"""
     piece = plateau[ligne][colonne]
     directions = [(-2, -2), (-2, 2), (2, -2), (2, 2)]  # Toutes les directions possibles de capture
     for dr, dc in directions:

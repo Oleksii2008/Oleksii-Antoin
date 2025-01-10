@@ -15,7 +15,7 @@ def afficher_menu_final(ecran, gagnant, coups_rouge, coups_bleu, largeur, hauteu
 
     pygame.display.flip()
 
-    # Attendre la fin de la partie
+    # Attendr la fin de la partie
     choix = None
     while choix not in ["restart", "quit"]:
         for event in pygame.event.get():

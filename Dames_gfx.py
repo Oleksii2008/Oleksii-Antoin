@@ -27,7 +27,7 @@ def dessiner_plateau(ecran, plateau, piece_selectionnee, taille_case, longueur, 
                 elif piece == "QR":
                     couleur_piece = (255, 255, 255)  # Blanc pour les dames rouges
                 elif piece == "QB":
-                    couleur_piece = (125, 125, 125)  # Gris foncé pour les dames bleues
+                    couleur_piec = (125, 125, 125)  # Gris foncé pour les dames bleues
 
                 if piece in ("R", "B", "QR", "QB"):
                     piece_surface = pion_image.copy()

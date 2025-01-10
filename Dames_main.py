@@ -118,7 +118,7 @@ while en_cours:
 
     dessiner_plateau(ecran, plateau, piece_selectionnee, TAILLE_CASE, longueur, hauteur)
 
-    # Vérifier si un joueur a gagné
+    # Vérifier si un joueur a gagnу
     gagnant = verifier_victoire(plateau)
     if gagnant:
         # Afficher le menu final
