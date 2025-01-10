@@ -17,6 +17,16 @@ def creer_plateau(longueur, hauteur):
 
     return plateau
 
+def promouvoir_dame(ligne, colonne, plateau):
+    """Promouvoir un pion en dame s'il atteint l'autre côté du plateau"""
+    # Si un pion rouge atteint la première ligne, il devient une dame rouge
+    if plateau[ligne][colonne] == "R" and ligne == 0:
+        plateau[ligne][colonne] = "QR"
+    # Si un pion bleu atteint la dernière ligne, il devient une dame bleue
+    elif plateau[ligne][colonne] == "B" and ligne == len(plateau) - 1:
+        plateau[ligne][colonne] = "QB"
+
+
 
 def mouvement_valide(depart_ligne, depart_colonne, arrivee_ligne, arrivee_colonne, plateau):
     """Vérifie si le mouvement est valide pour une pièce"""
@@ -90,4 +100,3 @@ def peut_continuer_capture(ligne, colonne, plateau):
                 if plateau[milieu_ligne][milieu_colonne] in (adversaire, adversaire_dame):
                     return True
     return False
-
