@@ -9,7 +9,7 @@ def creer_plateau(longueur, hauteur):
             if (ligne + colonne) % 2 == 1:
                 plateau[ligne][colonne] = "B"  # Pièces bleues
 
-    # Placer les pièces rouges sur les 4 dernières lignes
+    # Placer les pièces rouges sur les 4 dernières lignes.
     for ligne in range(hauteur - 4, hauteur):
         for colonne in range(longueur):
             if (ligne + colonne) % 2 == 1:

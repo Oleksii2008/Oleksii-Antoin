@@ -12,7 +12,7 @@ def dessiner_plateau(ecran, plateau, piece_selectionnee, taille_case, longueur, 
             if (ligne + colonne) % 2 == 0:
                 color = (245, 222, 179)  # Beige clair pour les cases blanches
             else:
-                color = (139, 69, 19)  # Marron foncé pour les cases noires
+                color = (139, 69, 19)  # Marron foncé pour les cases noires.
             pygame.draw.rect(ecran, color, (colonne * taille_case, ligne * taille_case, taille_case, taille_case))
 
     # Dessiner les pièces

@@ -1,7 +1,7 @@
 import pygame
 
 def afficher_menu_final(ecran, gagnant, coups_blanc, coups_noir, largeur, hauteur):
-    """Affiche le menu final avec les résultats."""
+    """Affiche le menu final avec les résultats"""
     # Set a fixed size for the final menu
     FINAL_MENU_SIZE = 500
     ecran = pygame.display.set_mode((FINAL_MENU_SIZE, FINAL_MENU_SIZE))

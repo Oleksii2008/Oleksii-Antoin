@@ -124,7 +124,7 @@ while en_cours:
         # Afficher le menu final
         choix = afficher_menu_final(ecran, gagnant, coups_rouge, coups_bleu, LARGEUR, HAUTEUR)
         if choix == "restart":
-            # Recommencer la partie
+            # Recommencer la partie.
             plateau = creer_plateau(longueur, hauteur)
             historique = [creer_plateau(longueur, hauteur)]
             joueur_actuel = "R"
