@@ -53,14 +53,6 @@ def capture_valide(depart_ligne, depart_colonne, arrivee_ligne, arrivee_colonne,
     return False
 
 
-def promouvoir_dame(ligne, colonne, plateau):
-    """Promouvoir un pion en dame"""
-    if plateau[ligne][colonne] == "R" and ligne == 0:
-        plateau[ligne][colonne] = "QR"
-    elif plateau[ligne][colonne] == "B" and ligne == len(plateau) - 1:
-        plateau[ligne][colonne] = "QB"
-
-
 def effectuer_mouvement(depart_ligne, depart_colonne, arrivee_ligne, arrivee_colonne, plateau):
     """Effectue un mouvement et retourne le joueur suivant"""
     piece = plateau[depart_ligne][depart_colonne]
