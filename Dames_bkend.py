@@ -85,7 +85,7 @@ def effectuer_mouvement(depart_ligne, depart_colonne, arrivee_ligne, arrivee_col
 
 
 def peut_continuer_capture(ligne, colonne, plateau):
-    """Vérifie si une pièce peut continuer a capturer"""
+    """Vérifie si une pièce peut continuer à capturer"""
     piece = plateau[ligne][colonne]
     directions = [(-2, -2), (-2, 2), (2, -2), (2, 2)]  # Toutes les directions possibles de capture
     for dr, dc in directions:
@@ -99,20 +99,4 @@ def peut_continuer_capture(ligne, colonne, plateau):
                 adversaire_dame = "QB" if piece in ("R", "QR") else "QR"
                 if plateau[milieu_ligne][milieu_colonne] in (adversaire, adversaire_dame):
                     return True
-    return False
-
-def verifier_coups_possibles(joueur, plateau):
-    """Визначає, чи може гравець виконати хоча б один рух"""
-    for ligne in range(len(plateau)):
-        for colonne in range(len(plateau[0])):
-            piece = plateau[ligne][colonne]
-            if piece and piece[0] == joueur:
-                directions = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
-                for dr, dc in directions:
-                    nouvelle_ligne, nouvelle_colonne = ligne + dr, colonne + dc
-                    if 0 <= nouvelle_ligne < len(plateau) and 0 <= nouvelle_colonne < len(plateau[0]):
-                        if mouvement_valide(ligne, colonne, nouvelle_ligne, nouvelle_colonne, plateau):
-                            return True
-                        if capture_valide(ligne, colonne, nouvelle_ligne, nouvelle_colonne, plateau):
-                            return True
     return False
